@@ -43,9 +43,11 @@ module Spree
     private
 
     def duplicate_translations(old_product)
+      globalize.reset
       old_product.translations.each do |translation|
-        translation.slug = nil # slug must be regenerated
-        self.translations << translation.dup
+        duped_translation = translation.dup
+        duped_translation.slug = nil # Force re-generation of slug based on candidates
+        self.translations << duped_translation
       end
     end
   end
